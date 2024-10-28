@@ -56,7 +56,15 @@ export default function App() {
           component={DrawerNavigator} 
           options={{ headerShown: false }} 
         />
-        
+        <Stack.Screen 
+          name="Streak" 
+          component={StreakScreen} 
+          options={{
+            title: 'Streak', 
+            headerTintColor: '#ab9e7f', 
+            headerStyle: { backgroundColor: '#ffffff' },
+          }}  
+        />
         {/* Other screens in the stack navigator */}
         <Stack.Screen 
           name="Profile" 
