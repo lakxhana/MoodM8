@@ -19,8 +19,8 @@ const HistoryScreen = ({ route }) => {
         <ScrollView contentContainerStyle={styles.historyList}>
           {history.slice().reverse().map((item, index) => (
             <View key={index} style={styles.historyBox}>
-              <Text style={styles.historyText}>Start Time: {item.startTime.toLocaleString()}</Text>
-              <Text style={styles.historyText}>Reset Time: {item.resetTime.toLocaleString()}</Text>
+              <Text style={styles.historyText}>Start Time: {new Date(item.startTime).toLocaleString()}</Text>
+              <Text style={styles.historyText}>Reset Time: {new Date(item.resetTime).toLocaleString()}</Text>
               <Text style={styles.historyText}>Duration: {formatElapsedTime(item.duration)}</Text>
             </View>
           ))}

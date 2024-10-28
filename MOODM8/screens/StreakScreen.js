@@ -33,18 +33,19 @@ const StreakScreen = ({ navigation }) => {
 
   const handleResetPress = () => {
     Alert.alert(
-      "Record Streak",
-      "Do you want to record your streak into history?",
+      "Are you sure you want to RESET the timer?",
+      "",
       [
         {
           text: "No",
-          onPress: () => resetStreak(),
+          onPress: () => {},
           style: "cancel",
         },
         { text: "Yes", onPress: () => recordStreak() },
       ]
     );
   };
+  
 
   const resetStreak = () => {
     setIsRunning(false);
@@ -53,8 +54,8 @@ const StreakScreen = ({ navigation }) => {
 
   const recordStreak = () => {
     const newRecord = {
-      startTime: new Date(currentDateTime.getTime() - elapsedTime),
-      resetTime: currentDateTime,
+      startTime: new Date(currentDateTime.getTime() - elapsedTime).toISOString(),
+      resetTime: currentDateTime.toISOString(),
       duration: elapsedTime,
     };
 
@@ -82,11 +83,11 @@ const StreakScreen = ({ navigation }) => {
   const formattedTime = currentDateTime.toLocaleTimeString();
 
   const handleNavigateToSummary = () => {
-    navigation.getParent().navigate('Summary', { elapsedTime });
+    navigation.navigate('Summary', { elapsedTime });
   };
-  
+
   const handleNavigateToHistory = () => {
-    navigation.getParent().navigate('History', { history });
+    navigation.navigate('History', { history }); // Pass history to History screen
   };
 
   return (
@@ -181,7 +182,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stopwatchText: {
-    fontSize: 56,
+    fontSize: 49,
     fontWeight: 'bold',
     color: '#333',
   },
