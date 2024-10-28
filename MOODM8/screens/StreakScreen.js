@@ -82,11 +82,11 @@ const StreakScreen = ({ navigation }) => {
   const formattedTime = currentDateTime.toLocaleTimeString();
 
   const handleNavigateToSummary = () => {
-    navigation.navigate('Summary', { elapsedTime });
+    navigation.getParent().navigate('Summary', { elapsedTime });
   };
-
+  
   const handleNavigateToHistory = () => {
-    navigation.navigate('History', { history }); // Pass history to History screen
+    navigation.getParent().navigate('History', { history });
   };
 
   return (
