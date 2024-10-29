@@ -27,7 +27,7 @@ const SummaryScreen = ({ route }) => {
   }, [elapsedTime]);
 
   return (
-    <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+    
       <View style={styles.container}>
         <Text style={styles.heading}>My sober streak is ...</Text>
         <View style={styles.resultContainer}>
@@ -45,7 +45,7 @@ const SummaryScreen = ({ route }) => {
           </View>
         </View>
       </View>
-    </ImageBackground>
+
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Alert, ImageBackground } from 'react-native';
-import backgroundImage from '../assets/logo_bg_1.png';
+import { View, Text, Alert, TouchableOpacity, StyleSheet } from 'react-native';
 
 const StreakScreen = ({ navigation }) => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -36,16 +35,11 @@ const StreakScreen = ({ navigation }) => {
       "Are you sure you want to RESET the timer?",
       "",
       [
-        {
-          text: "No",
-          onPress: () => {},
-          style: "cancel",
-        },
+        { text: "No", onPress: () => {}, style: "cancel" },
         { text: "Yes", onPress: () => recordStreak() },
       ]
     );
   };
-  
 
   const resetStreak = () => {
     setIsRunning(false);
@@ -87,53 +81,55 @@ const StreakScreen = ({ navigation }) => {
   };
 
   const handleNavigateToHistory = () => {
-    navigation.navigate('History', { history }); // Pass history to History screen
+    navigation.navigate('History', { history }); 
   };
 
   return (
-    <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-      <View style={styles.container}>
-        <View style={styles.dateTimeBox}>
-          <Text style={styles.dateText}>{formattedDate}</Text>
-          <Text style={styles.timeText}>{formattedTime}</Text>
-        </View>
-
-        <View style={styles.startContainer}>
-          <Text style={styles.startText}>Press 'Start' button to start Streak</Text>
-          <Button title={isRunning ? "Stop" : "Start"} onPress={handleStartPress} color="#ab9e7f" />
-        </View>
-
-        <View style={styles.stopwatchBox}>
-          <Text style={styles.stopwatchText}>{formatElapsedTime(elapsedTime)}</Text>
-        </View>
-
-        <View style={styles.streakContainer}>
-          <TouchableOpacity style={styles.resetButton} onPress={handleResetPress}>
-            <Text style={styles.resetButtonText}>RESET</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.navigateButton} onPress={handleNavigateToSummary}>
-            <Text style={styles.navigateButtonText}>Summary</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.navigateButton, styles.historyButton]} onPress={handleNavigateToHistory}>
-            <Text style={styles.navigateButtonText}>History</Text>
-          </TouchableOpacity>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.dateTimeBox}>
+        <Text style={styles.dateText}>{formattedDate}</Text>
+        <Text style={styles.timeText}>{formattedTime}</Text>
       </View>
-    </ImageBackground>
+
+      <View style={styles.startContainer}>
+        <Text style={styles.startText}>Press 'Start' button to start Streak</Text>
+        <TouchableOpacity
+          style={[
+            styles.startButton,
+            { backgroundColor: isRunning ? '#ab9e7f' : '#afcfd6' } // Change color based on isRunning
+          ]}
+          onPress={handleStartPress}
+        >
+          <Text style={styles.startButtonText}>{isRunning ? "Stop" : "Start"}</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.stopwatchBox}>
+        <Text style={styles.stopwatchText}>{formatElapsedTime(elapsedTime)}</Text>
+      </View>
+
+      <View style={styles.streakContainer}>
+        <TouchableOpacity style={styles.resetButton} onPress={handleResetPress}>
+          <Text style={styles.resetButtonText}>Reset</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navigateButton} onPress={handleNavigateToSummary}>
+          <Text style={styles.navigateButtonText}>Summary</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.navigateButton, styles.historyButton]} onPress={handleNavigateToHistory}>
+          <Text style={styles.navigateButtonText}>History</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
-// Styles remain the same
+// Styles remain the same with added startButton and startButtonText
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover',
-  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(240, 240, 240, 0.8)', // Optional overlay color
+    backgroundColor: 'rgba(240, 240, 240, 0.8)',
     paddingTop: 50,
     paddingHorizontal: 20,
   },
@@ -164,13 +160,24 @@ const styles = StyleSheet.create({
   },
   startText: {
     fontSize: 16,
-    color: '#333',
+    color: '#ab9e7f',
     marginRight: 10,
+  },
+  startButton: {
+    borderRadius: 5,
+    padding: 10,
+    minWidth: '27%',
+    alignItems: 'center',
+  },
+  startButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   stopwatchBox: {
     marginTop: 20,
     marginBottom: 100,
-    backgroundColor: '#f1e5b6',
+    backgroundColor:'#afcfd6',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -184,7 +191,7 @@ const styles = StyleSheet.create({
   stopwatchText: {
     fontSize: 49,
     fontWeight: 'bold',
-    color: '#333',
+    color: 'white',
   },
   streakContainer: {
     flexDirection: 'row',
@@ -193,11 +200,12 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   resetButton: {
-    backgroundColor: '#ab9e7f',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    marginRight: 10,
+    backgroundColor: '#afcfd6',
+    borderRadius: 5,
+    padding: 10,
+    marginHorizontal: 5,
+    minWidth: '30%',
+    alignItems: 'center',
   },
   resetButtonText: {
     color: '#fff',
@@ -205,10 +213,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   navigateButton: {
-    backgroundColor: '#ab9e7f',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 10,
+    backgroundColor: '#afcfd6',
+    borderRadius: 5,
+    padding: 10,
+    marginHorizontal: 5,
+    minWidth: '30%',
+    alignItems: 'center',
   },
   historyButton: {
     marginLeft: 11,

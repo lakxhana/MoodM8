@@ -13,7 +13,7 @@ const HistoryScreen = ({ route }) => {
   };
 
   return (
-    <ImageBackground source={require('../assets/logo_bg_2.png')} style={styles.backgroundImage}>
+    
       <View style={styles.container}>
         <Text style={styles.title}>Streak History</Text>
         <ScrollView contentContainerStyle={styles.historyList}>
@@ -26,7 +26,7 @@ const HistoryScreen = ({ route }) => {
           ))}
         </ScrollView>
       </View>
-    </ImageBackground>
+  
   );
 };
 
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'rgba(240, 240, 240, 0.8)', // Optional overlay color
+    backgroundColor: '#E7EAEC', // Optional overlay color
     padding: 20,
   },
   title: {

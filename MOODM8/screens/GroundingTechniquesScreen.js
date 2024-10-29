@@ -49,7 +49,6 @@ const GroundingTechniquesScreen = () => {
     }, []);
 
     const handleNext = () => {
-        // Check if all inputs for the current step are filled
         const allInputsFilled = input.every(item => item.trim() !== '');
         
         if (!allInputsFilled) {
@@ -57,7 +56,6 @@ const GroundingTechniquesScreen = () => {
             return;
         }
     
-        // Update responses and move to the next step
         setResponses(prev => ({
             ...prev,
             [prompts[step - 1].key]: input.filter(item => item),
@@ -121,7 +119,7 @@ const GroundingTechniquesScreen = () => {
                         <Icon
                             name={isIconPressed ? "volume-up" : "volume-off"}
                             size={30}
-                            color="#afcfd6"
+                            color="#ab9e7f"
                         />
                     </TouchableOpacity>
                 </View>
@@ -194,9 +192,9 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: '#afcfd6',
-        marginBottom: 50, 
-        marginTop: 20, 
+        color: '#ab9e7f',
+        marginBottom: 30, 
+        marginTop: 5, 
         textAlign: 'center',
     },
     headerContainer: {
@@ -213,7 +211,7 @@ const styles = StyleSheet.create({
     promptText: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#afcfd6',
+        color: '#ab9e7f',
         textAlign: 'center',
     },
     input: {
@@ -221,8 +219,8 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 5,
         padding: 10,
-        marginVertical: 5,
-        width: 300, // Set a fixed width for the input
+        marginVertical: 10,
+        width: 300, 
     },
     buttonContainer: {
         flexDirection: 'row',

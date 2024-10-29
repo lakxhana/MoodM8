@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     phaseText: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#555',
+        color: '#ab9e7f',
         marginBottom: 10,
     },
     timerText: {
