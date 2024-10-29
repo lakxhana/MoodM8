@@ -9,6 +9,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import StreakScreen from './screens/StreakScreen';
 import SummaryScreen from './screens/SummaryScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import ChatbotScreen from './screens/ChatbotScreen'; // Import ChatbotScreen
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
 const Stack = createNativeStackNavigator();
@@ -42,6 +43,11 @@ const DrawerNavigator = ({ navigation }) => (
     <Drawer.Screen name="BreathingGuide" component={BreathingGuideScreen} />
     <Drawer.Screen name="GroundingTechniques" component={GroundingTechniquesScreen}/>
     <Drawer.Screen name="Streak" component={StreakScreen}/>
+    <Drawer.Screen 
+      name="Chatbot" 
+      component={ChatbotScreen} // Add ChatbotScreen to Drawer
+      options={{ title: 'Chatbot' }}
+    />
   </Drawer.Navigator>
 );
 
