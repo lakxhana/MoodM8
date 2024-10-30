@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import clinicsData from '../assets/clinics.json'; // Adjust the path as needed
 
 const ClinicsScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [clinics, setClinics] = useState([]);
 
-  //will edit this with then actual list later
-  const clinics = [
-    { id: '1', name: 'Clinic A', address: '123 Mental Health Ave, City, State, ZIP', phone: '(123) 456-7890', category: 'Counseling' },
-    { id: '2', name: 'Clinic B', address: '456 Therapy Rd, City, State, ZIP', phone: '(987) 654-3210', category: 'Psychiatry' },
-    { id: '3', name: 'Clinic C', address: '789 Wellness St, City, State, ZIP', phone: '(555) 555-5555', category: 'Clinical Psychology' },
-  ];
+  useEffect(() => {
+
+    setClinics(clinicsData);
+  }, []);
 
   const filteredClinics = clinics.filter(clinic => {
     const matchesSearch = 
-    clinic.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    clinic.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    clinic.phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    clinic.category.toLowerCase().includes(searchQuery.toLowerCase());
+      clinic.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      clinic.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      clinic.phone.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      clinic.category.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory ? clinic.category === selectedCategory : true;
     return matchesSearch && matchesCategory;
   });
@@ -25,7 +25,6 @@ const ClinicsScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Mental Health Clinics</Text>
-
 
       <TextInput
         style={styles.searchBar}
