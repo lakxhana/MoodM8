@@ -81,7 +81,7 @@ const TabStackNavigator = () => (
       name="Profile" 
       component={ProfileScreen} 
       options={{
-        title: 'Your Profile', 
+        title: 'My Profile', 
         headerTintColor: '#ab9e7f', 
         headerStyle: { backgroundColor: '#ffffff' },
       }}  

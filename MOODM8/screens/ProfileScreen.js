@@ -1,59 +1,72 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { auth } from '../firebaseConfig'; // Adjust the import based on your directory structure
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
+import { auth } from '../firebaseConfig';
 import { onAuthStateChanged } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 const ProfileScreen = () => {
   const [userData, setUserData] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState(""); // State for phone number
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
-  const [storedPhoneNumber, setStoredPhoneNumber] = useState("Add phone number"); // Default value
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [name, setName] = useState(""); 
+  const db = getFirestore();
 
   useEffect(() => {
-    const fetchPhoneNumber = async () => {
+    const fetchUserData = async (user) => {
       const storedPhone = await AsyncStorage.getItem('phoneNumber');
-      setStoredPhoneNumber(storedPhone || "Add phone number");
+      const storedName = await AsyncStorage.getItem('name');
+      setPhoneNumber(storedPhone || ""); 
+      setName(storedName || ""); 
+      setUserData({
+        name: user.displayName || storedName,
+        email: user.email,
+        phone: storedPhone || "",
+      });
     };
-  
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUserData({
-          name: user.displayName,
-          email: user.email,
-          phone: storedPhoneNumber,
-        });
+        fetchUserData(user);
       } else {
         setUserData(null);
       }
     });
-  
-    fetchPhoneNumber(); // Call the function to fetch phone number
-  
+
     return () => unsubscribe();
   }, []);
 
-  const handlePhoneUpdate = async () => {
-    if (phoneNumber.trim()) {
-      await AsyncStorage.setItem('phoneNumber', phoneNumber); // Store the phone number
-      setStoredPhoneNumber(phoneNumber);
-      setPhoneNumber("");
-      setIsEditing(false);
-    }
+  const handleSave = async () => {
+    const userId = auth.currentUser.uid;
+    const updatedData = {
+      name,
+      phoneNumber,
+    };
+
+    await setDoc(doc(db, 'users', userId), updatedData, { merge: true });
+    
+    await AsyncStorage.setItem('name', name);
+    await AsyncStorage.setItem('phoneNumber', phoneNumber);
+
+    alert('Profile updated successfully!');
   };
 
   return (
-    <View style={styles.container}>
-      
-
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       {userData ? (
-        <View style={styles.cuteBox}>
-          <Text style={styles.title}>My Profile</Text>
+        <View style={styles.profileContainer}>
+          <Text style={styles.heading}>My Profile</Text>
+          
           <View style={styles.infoContainer}>
             <Text style={styles.label}>Name:</Text>
-            <View style={styles.infoBox}>
-              <Text style={styles.infoText}>{userData.name}</Text>
-            </View>
+            <TextInput
+              style={styles.input}
+              value={name}
+              onChangeText={setName}
+              placeholder="Enter name"
+            />
           </View>
 
           <View style={styles.infoContainer}>
@@ -65,46 +78,23 @@ const ProfileScreen = () => {
 
           <View style={styles.infoContainer}>
             <Text style={styles.label}>Phone Number:</Text>
-            <View style={styles.infoBox}>
-              <View style={styles.phoneNumberContainer}>
-                {isEditing ? (
-                  <>
-                    <TextInput
-                      style={styles.input}
-                      value={phoneNumber}
-                      onChangeText={setPhoneNumber}
-                      placeholder="Enter phone number"
-                    />
-                    <TouchableOpacity style={styles.saveButton} onPress={handlePhoneUpdate}>
-                      <Text style={styles.saveButtonText}>Save</Text>
-                    </TouchableOpacity>
-                  </>
-                ) : storedPhoneNumber === "Add phone number" ? (
-                  <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={() => setIsEditing(true)}
-                  >
-                    <Text style={styles.actionButtonText}>Add Phone Number</Text>
-                  </TouchableOpacity>
-                ) : (
-                  <>
-                    <Text style={styles.infoText}>{storedPhoneNumber}</Text>
-                    <TouchableOpacity
-                      style={styles.actionButton}
-                      onPress={() => setIsEditing(true)}
-                    >
-                      <Text style={[styles.actionButtonText, { fontSize: 13 }]}>Change Phone Number</Text>
-                    </TouchableOpacity>
-                  </>
-                )}
-              </View>
-            </View>
+            <TextInput
+              style={styles.input}
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+              placeholder="Enter phone number"
+              keyboardType="phone-pad"
+            />
           </View>
+
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.saveButtonText}>Save Entry</Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <Text style={styles.loadingText}>Loading...</Text>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -115,6 +105,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
   },
+  profileContainer: {
+    backgroundColor: 'transparent', // Set background to transparent
+    borderRadius: 15,
+    padding: 30, // Adjusted padding for a more spacious look
+    width: '90%',
+    elevation: 3, // Light shadow for better visibility
+    alignItems: 'flex-start',
+    marginTop: -150, // Move the container up
+  },
   title: {
     color: '#706752',
     fontSize: 30,
@@ -122,26 +121,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: 'center',
   },
-  cuteBox: {
-    //backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    backgroundColor: '#c6e7e7',
-    borderRadius: 15,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.6,
-    shadowRadius: 4,
-    elevation: 5,
-    width: '90%', // Make the cute box wider
-    alignItems: 'flex-start',
-    marginBottom:60,
-  },
   infoContainer: {
     width: '100%',
-    marginVertical: 10,
+    marginVertical: 20, // Increase vertical margin for spacing
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#ab9e7f',
+    marginBottom: 30, 
+    marginTop: 5,
+    textAlign: 'center',
   },
   label: {
     fontSize: 16,
@@ -161,41 +151,30 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'left',
   },
-  phoneNumberContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-  },
   input: {
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
-    width: '70%', // Adjusted width to fit in the row
-    marginBottom: 10,
-  },
-  actionButton: {
-    width: '50%',
-    alignItems: 'flex-end',
-  },
-  actionButtonText: {
-    color: '#b7b7b5',
-    fontSize: 16,
-    textDecorationLine: 'underline',
-  },
-  saveButton: {
-    alignItems: 'center',
-    marginLeft: 10,
-  },
-  saveButtonText: {
-    color: '#b7b7b5',
-    fontSize: 16,
-    textDecorationLine: 'underline',
+    width: '100%',
+    marginBottom: 0,
   },
   loadingText: {
     fontSize: 16,
     color: '#888',
+  },
+  saveButton: {
+    backgroundColor: '#afcfd6', // Button background color
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20, // Adjust margin as needed
+    width: '100%', // Makes the button full-width
+  },
+  saveButtonText: {
+    color: '#fff', // Text color
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
