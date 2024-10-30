@@ -5,7 +5,7 @@ const StreakScreen = ({ navigation }) => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [isRunning, setIsRunning] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [history, setHistory] = useState([]); // Array to store history
+  const [history, setHistory] = useState([]); 
 
   useEffect(() => {
     const timer = setInterval(() => {

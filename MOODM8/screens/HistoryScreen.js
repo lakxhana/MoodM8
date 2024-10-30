@@ -43,8 +43,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: 'bold',
+    marginTop: 20,
     marginBottom: 20,
     color: '#706752',
   },
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   historyBox: {
-    backgroundColor: '#f1e5b6',
+    backgroundColor: '#afcfd6',
     borderRadius: 10,
     padding: 15,
     marginBottom: 10,
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   },
   historyText: {
     fontSize: 17,
-    color: '#333',
+    color: '#fff',
   },
 });
 

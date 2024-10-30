@@ -29,7 +29,7 @@ const SummaryScreen = ({ route }) => {
   return (
     
       <View style={styles.container}>
-        <Text style={styles.heading}>My sober streak is ...</Text>
+        <Text style={styles.heading}>My streak is ...</Text>
         <View style={styles.resultContainer}>
           <View style={styles.timeBox}>
             <Text style={styles.timeText}>{days} Days</Text>

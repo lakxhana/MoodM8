@@ -6,16 +6,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import GroundingTechniquesScreen from './screens/GroundingTechniquesScreen';
 import BreathingGuideScreen from './screens/BreathingGuideScreen'; 
+import SignOutScreen from './screens/SignOutScreen'; 
 import ProfileScreen from './screens/ProfileScreen'; 
 import StreakScreen from './screens/StreakScreen';
 import SummaryScreen from './screens/SummaryScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import LoginScreen from './screens/LoginScreen'; 
+import SignUpScreen from './screens/SignUpScreen'; 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
-
 
 const BottomTabNavigator = ({ navigation }) => (
   <Tab.Navigator
@@ -46,7 +48,7 @@ const BottomTabNavigator = ({ navigation }) => (
           size={24} 
           color="#ab9e7f" 
           style={{ marginLeft: 15 }} 
-          onPress={() => navigation.toggleDrawer()} // Toggle drawer
+          onPress={() => navigation.toggleDrawer()} 
         />
       ),
       headerRight: () => (
@@ -68,13 +70,12 @@ const BottomTabNavigator = ({ navigation }) => (
   </Tab.Navigator>
 );
 
-
 const TabStackNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen 
       name="Back" 
       component={BottomTabNavigator} 
-      options={{ headerShown: false }} // Hide the header for the tabs
+      options={{ headerShown: false }} 
     />
     <Stack.Screen 
       name="Profile" 
@@ -94,8 +95,16 @@ const TabStackNavigator = () => (
         headerStyle: { backgroundColor: '#ffffff' },
       }} 
     />
-
-<Stack.Screen 
+    <Stack.Screen 
+      name="SignUp" 
+      component={SignUpScreen} 
+      options={{ 
+        headerShown: false, 
+        headerTintColor: '#ab9e7f',
+        headerStyle: { backgroundColor: '#ffffff' },
+      }} 
+    />
+    <Stack.Screen 
       name="Breathing" 
       component={BreathingGuideScreen} 
       options={{ 
@@ -104,8 +113,7 @@ const TabStackNavigator = () => (
         headerStyle: { backgroundColor: '#ffffff' },
       }} 
     />
-
-<Stack.Screen 
+    <Stack.Screen 
       name="Grounding" 
       component={GroundingTechniquesScreen} 
       options={{ 
@@ -126,7 +134,6 @@ const TabStackNavigator = () => (
   </Stack.Navigator>
 );
 
-// Drawer Navigator
 const DrawerNavigator = () => (
   <Drawer.Navigator 
     initialRouteName="MainScreen"
@@ -143,14 +150,26 @@ const DrawerNavigator = () => (
         headerShown: false, 
       }}
     />
+    <Drawer.Screen 
+      name="SignOutScreen" 
+      component={SignOutScreen} // Use SignOutScreen directly
+      options={{
+        title: 'Sign Out',
+        headerShown: false, 
+      }}
+    />
   </Drawer.Navigator>
 );
 
-// Main App Component
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Drawer">
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen 
+          name="Login" 
+          component={LoginScreen} 
+          options={{ headerShown: false }} 
+        />
         <Stack.Screen 
           name="Drawer" 
           component={DrawerNavigator} 
