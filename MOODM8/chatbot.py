@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-openai.api_key = "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"  # Use an environment variable for security
+openai.api_key = ""  # Use an environment variable for security
 messages = [{"role": "system", "content": "You are a psychologist"}]
 
 def CustomChatGPT(user_input):
