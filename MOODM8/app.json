@@ -18,13 +18,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.lakxhana.MOODM8"
     },
     "web": {
       "favicon": "./assets/logo.png"
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "64870931-6b7f-49a6-aeaa-a359e46a7daf"
+      }
+    }
   }
 }

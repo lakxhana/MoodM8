@@ -40,7 +40,7 @@ const HomeScreen = () => {
   const [moodPosition, setMoodPosition] = useState(0);
   const db = getFirestore();
   const auth = getAuth();
-  const moodScaleWidth = 380; // Adjusted width for accurate positioning
+  const moodScaleWidth = 380;
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     position: 'relative',
     marginVertical: 10,
-    paddingHorizontal: 10, // Adjust for inner padding
+    paddingHorizontal: 10, 
   },
   dragIndicator: {
     position: 'absolute',
@@ -333,12 +333,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   modalImage: {
-    width: '90%',
-    height: '60%',
+    width: '100%',
+    height: '90%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
     overflow: 'hidden',
+    marginBottom:-100,
   },
   modalQuoteText: {
     fontSize: 20,
