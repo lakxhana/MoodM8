@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, auth } from '../firebaseConfig';
+import { updateProfile } from 'firebase/auth'; // Import updateProfile
 
 const SignUp = () => {
   const [name, setName] = useState(''); 
@@ -13,8 +14,15 @@ const SignUp = () => {
     if (name && email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
-          Alert.alert("Sign-Up Successful", `Welcome, ${name}! You can now log in.`);
-          navigation.navigate('Login');
+          // Update the user's profile with the name
+          updateProfile(userCredential.user, { displayName: name })
+            .then(() => {
+              Alert.alert("Sign-Up Successful", `Welcome, ${name}! You can now log in.`);
+              navigation.navigate('Login');
+            })
+            .catch(error => {
+              Alert.alert("Profile Update Failed", error.message);
+            });
         })
         .catch(error => {
           Alert.alert("Sign-Up Failed", error.message);
