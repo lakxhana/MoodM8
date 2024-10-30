@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#706752',
+    color: '#ab9e7f',
     marginBottom: 20,
   },
   resultContainer: {
@@ -66,24 +66,22 @@ const styles = StyleSheet.create({
     borderColor: '#d4caa2'
   },
   timeBox: {
-    backgroundColor: '#afcfd6',
+    backgroundColor: '#fff',
     width: 300,
     height: 75,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
     marginBottom: 10,
     shadowColor: '#d4caa2',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 10,
-    borderColor: '#d4caa2',
-    borderWidth: 2,
+
   },
   timeText: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#706752',
+    color: '#ab9e7f',
   },
 });
 

@@ -1,6 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ImageBackground, StyleSheet, ScrollView, Modal } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  StyleSheet,
+  ScrollView,
+  Modal,
+  PanResponder,
+  Alert,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { getFirestore, collection, addDoc } from 'firebase/firestore'; // Change here
+import { getAuth } from 'firebase/auth';
 
 const motivationalQuotes = [
   {
@@ -17,22 +29,29 @@ const motivationalQuotes = [
   }
 ];
 
+const moodLabels = ["Very Unhappy", "Unhappy", "Neutral", "Happy", "Very Happy"];
+
 const HomeScreen = () => {
   const [selectedMood, setSelectedMood] = useState(null);
-  const [comment, setComment] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedQuote, setSelectedQuote] = useState(null);
   const [randomQuote, setRandomQuote] = useState(null);
-  const [journalEntry, setJournalEntry] = useState('');
   const navigation = useNavigation();
+  const panResponder = useRef();
+  const [moodPosition, setMoodPosition] = useState(0);
+  const db = getFirestore();
+  const auth = getAuth();
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
     setRandomQuote(motivationalQuotes[randomIndex]);
   }, []);
 
+  useEffect(() => {
+    const moodIndex = Math.round(moodPosition / (400 / (moodLabels.length - 1)));
+    setSelectedMood(moodIndex);
+  }, [moodPosition]);
+
   const openQuoteModal = () => {
-    setSelectedQuote(randomQuote);
     setIsModalVisible(true);
   };
 
@@ -40,28 +59,66 @@ const HomeScreen = () => {
     setIsModalVisible(false);
   };
 
-  const saveMood = () => {
-    console.log('Mood:', selectedMood, 'Comment:', comment);
-    setSelectedMood(null);
-    setComment('');
-  };
-
   const handleNavigateToBreathing = () => {
-    navigation.navigate('Breathing'); 
+    navigation.navigate('Breathing');
   };
 
-  const handleNavigatetoJournalling = () => {
-     navigation.navigate('Breathing'); //change this tyour journalling screen
-  }
+  const handleNavigateToMood = () => {
+    navigation.navigate('Mood');
+  };
 
   const handleNavigateToGrounding = () => {
-    navigation.navigate('Grounding'); 
+    navigation.navigate('Grounding');
   };
 
-  const handleSaveJournalEntry = () => {
-    console.log('Journal Entry:', journalEntry);
-    setJournalEntry(''); 
+  const handleMoodSubmit = async () => {
+    if (selectedMood !== null) {
+      const user = auth.currentUser; 
+      const email = user ? user.email : "anonymous";
+      const moodType = selectedMood;
+
+      try {
+        await addDoc(collection(db, 'moods'), { 
+          email: email,
+          mood: moodLabels[selectedMood],
+          moodType: moodType.toString(),
+          timeStamp: new Date(),
+        });
+
+        console.log("Selected Mood: ", moodLabels[selectedMood]);
+        console.log("Mood saved successfully!");
+
+        
+        Alert.alert("Success!", "Your mood has been recorded successfully.", [{ text: "OK" }]);
+
+        setMoodPosition(0);
+        setSelectedMood(null);
+      } catch (error) {
+        console.error("Error saving mood: ", error);
+        Alert.alert("Error", "There was an issue saving your mood. Please try again.");
+      }
+    }
   };
+
+  const moodScaleWidth = 400;
+
+  panResponder.current = PanResponder.create({
+    onMoveShouldSetPanResponder: (_, gestureState) => {
+      return gestureState.dx !== 0;
+    },
+    onPanResponderMove: (_, gestureState) => {
+      let newPosition = moodPosition + gestureState.dx;
+
+      if (newPosition < 0) newPosition = 0;
+      if (newPosition > moodScaleWidth) newPosition = moodScaleWidth;
+
+      setMoodPosition(newPosition);
+    },
+    onPanResponderRelease: () => {
+      const moodIndex = Math.round(moodPosition / (moodScaleWidth / (moodLabels.length - 1)));
+      setMoodPosition(moodIndex * (moodScaleWidth / (moodLabels.length - 1)));
+    },
+  });
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -70,7 +127,6 @@ const HomeScreen = () => {
         <Text style={styles.motivation}>Welcome Back</Text>
       </View>
 
-      {/* Motivational Quote Section */}
       <View style={styles.quoteCard}>
         {randomQuote && (
           <TouchableOpacity onPress={openQuoteModal}>
@@ -81,22 +137,33 @@ const HomeScreen = () => {
         )}
       </View>
 
-    <View style={styles.moodContainer}>
-      <Text style={styles.sectionTitle}>How are you feeling today?</Text>
-      <View style={styles.moodButtonsContainer}>
-        <TouchableOpacity onPress={() => setSelectedMood('Happy')} style={styles.moodButton}>
-          <Text style={styles.mood}>😊</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedMood('Sad')} style={styles.moodButton}>
-          <Text style={styles.mood}>😢</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedMood('Angry')} style={styles.moodButton}>
-          <Text style={styles.mood}>😠</Text>
+      <View style={styles.moodContainer}>
+        <Text style={styles.sectionTitle}>How are you feeling today?</Text>
+        <View style={styles.scaleContainer}>
+          <View style={styles.moodLabelsContainer}>
+            {moodLabels.map((label, index) => (
+              <Text key={index} style={styles.moodLabel}>
+                {index}
+              </Text>
+            ))}
+          </View>
+          <View style={styles.moodScale} {...panResponder.current.panHandlers}>
+            <View
+              style={[
+                styles.dragIndicator,
+                { left: moodPosition },
+              ]}
+            />
+          </View>
+        </View>
+        <Text style={styles.selectedMoodText}>
+          Selected Mood: {selectedMood !== null ? moodLabels[selectedMood] : "None"}
+        </Text>
+
+        <TouchableOpacity onPress={handleMoodSubmit} style={styles.submitButton}>
+          <Text style={styles.submitButtonText}>Submit Mood</Text>
         </TouchableOpacity>
       </View>
-    </View>
-
-
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>For You</Text>
@@ -112,6 +179,13 @@ const HomeScreen = () => {
             <Text style={styles.cardSubText}>5-4-3-2-1 Techniques</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.card}>
+          <TouchableOpacity onPress={handleNavigateToMood}>
+            <Text style={styles.cardText}>Mood Tracker</Text>
+            <Text style={styles.cardSubText}>Track your mood</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.card}>
           <TouchableOpacity onPress={handleNavigateToBreathing}>
             <Text style={styles.cardText}>Journal</Text>
@@ -120,15 +194,14 @@ const HomeScreen = () => {
         </View>
       </View>
 
-      {/* Motivational Quote Modal */}
       <Modal visible={isModalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
-          {selectedQuote && (
-            <ImageBackground source={selectedQuote.image} style={styles.modalImage}>
+          {randomQuote && (
+            <ImageBackground source={randomQuote.image} style={styles.modalImage}>
               <TouchableOpacity onPress={closeQuoteModal} style={styles.closeButton}>
                 <Text style={styles.closeButtonText}>Close</Text>
               </TouchableOpacity>
-              <Text style={styles.modalQuoteText}>{selectedQuote.text}</Text>
+              <Text style={styles.modalQuoteText}>{randomQuote.text}</Text>
             </ImageBackground>
           )}
         </View>
@@ -175,67 +248,81 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(175, 207, 214, 0.7)',
     padding: 10,
   },
-  moodButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center', 
+  moodContainer: {
     marginVertical: 10,
   },
-  
-  moodButton: {
-    padding: 10,
-  },
-  mood: {
-    fontSize: 50,
-  },
-  commentInput: {
-    width: '100%',
-    height: 80,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 20,
-    backgroundColor: '#fff',
-  },
-  saveButton: {
-    backgroundColor: '#afcfd6',
-    padding: 15,
-    borderRadius: 8,
+  scaleContainer: {
     alignItems: 'center',
-    marginBottom: 10,
+    width: '100%',
   },
-  saveButtonText: {
-    color: '#fff',
-    fontSize: 16,
+  moodLabelsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  moodLabel: {
+    color: '#ab9e7f',
+  },
+  moodScale: {
+    height: 40,
+    width: '100%',
+    backgroundColor: '#e0e0e0',
+    borderRadius: 20,
+    position: 'relative',
+    marginVertical: 10,
+  },
+  dragIndicator: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#ab9e7f',
+    top: 10,
+  },
+  selectedMoodText: {
+    textAlign: 'center',
+    color: '#ab9e7f',
     fontWeight: 'bold',
   },
-  journalSection: {
-    marginBottom: 30,
+  submitButton: {
+    backgroundColor: '#afcfd6',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  submitButtonText: {
+    color: '#fff',
+    fontSize: 18,
   },
   section: {
-    marginBottom: 30,
+    marginTop: 20,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    color: '#ab9e7f',
+    marginBottom: 10,
   },
   card: {
-    backgroundColor: '#afcfd6',
+    backgroundColor: '#fff',
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
+    elevation: 2,
   },
   cardText: {
-    color: '#fff',
     fontSize: 18,
-    fontWeight: '600',
+    color: '#ab9e7f',
   },
   cardSubText: {
-    color: '#fff',
     fontSize: 14,
+    color: '#777',
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   modalImage: {
     width: '100%',
@@ -243,29 +330,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalQuoteText: {
-    color: '#fff',
-    fontSize: 22,
-    textAlign: 'center',
-    backgroundColor: 'rgba(175, 207, 214, 0.7)',
-    padding: 15,
-  },
   closeButton: {
     position: 'absolute',
     top: 40,
     right: 20,
-    backgroundColor: '#afcfd6',
-    padding: 10,
-    borderRadius: 5,
   },
   closeButtonText: {
     color: '#fff',
-    fontWeight: 'bold',
+    fontSize: 20,
   },
-  sectionTitle: {
-    color: '#ab9e7f',
-    fontSize: 18,
-    marginBottom: 6,
+  modalQuoteText: {
+    color: '#fff',
+    fontSize: 24,
+    textAlign: 'center',
+    padding: 20,
   },
 });
 

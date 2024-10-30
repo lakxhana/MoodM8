@@ -11,6 +11,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import StreakScreen from './screens/StreakScreen';
 import SummaryScreen from './screens/SummaryScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import MoodScreen from './screens/MoodScreen';
 import LoginScreen from './screens/LoginScreen'; 
 import SignUpScreen from './screens/SignUpScreen'; 
 import ClinicsScreen from './screens/ClinicsScreen';
@@ -27,7 +28,10 @@ const BottomTabNavigator = ({ navigation }) => (
         let iconName;
         if (route.name === 'Home') {
           iconName = 'home';
-        } else if (route.name === 'Breathing') {
+        }else if (route.name === 'Mood'){
+          iconName ='calendar-outline';
+        }
+         else if (route.name === 'Breathing') {
           iconName = 'leaf';
         } else if (route.name === 'Grounding') {
           iconName = 'body';
@@ -64,6 +68,7 @@ const BottomTabNavigator = ({ navigation }) => (
     })}
   >
     <Tab.Screen name="Home" component={HomeScreen} />
+    <Tab.Screen name="Mood" component={MoodScreen} />
     <Tab.Screen name="Breathing" component={BreathingGuideScreen} />
     <Tab.Screen name="Grounding" component={GroundingTechniquesScreen} />
     <Tab.Screen name="Streak" component={StreakScreen} />
@@ -152,16 +157,6 @@ const DrawerNavigator = () => (
       }}
     />
 
-      <Drawer.Screen 
-      name="Clinics" 
-      component={ClinicsScreen} 
-      options={{
-        title: 'Mental Health Clinics',
-        headerShown: true,
-        headerTintColor: '#ab9e7f',
-        headerStyle: { backgroundColor: '#ffffff' },
-      }}
-    />
     <Drawer.Screen 
       name="SignOutScreen" 
       component={SignOutScreen}
