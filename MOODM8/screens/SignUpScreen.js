@@ -2,27 +2,18 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, auth } from '../firebaseConfig';
-import { updateProfile } from 'firebase/auth'; // Import updateProfile
 
 const SignUp = () => {
-  const [name, setName] = useState(''); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
   const handleSignUp = () => {
-    if (name && email && password) {
+    if (email && password) {
       createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
-          // Update the user's profile with the name
-          updateProfile(userCredential.user, { displayName: name })
-            .then(() => {
-              Alert.alert("Sign-Up Successful", `Welcome, ${name}! You can now log in.`);
-              navigation.navigate('Login');
-            })
-            .catch(error => {
-              Alert.alert("Profile Update Failed", error.message);
-            });
+          Alert.alert("Sign-Up Successful", `Welcome! You can now log in.`);
+          navigation.navigate('Login');
         })
         .catch(error => {
           Alert.alert("Sign-Up Failed", error.message);
