@@ -1,0 +1,24 @@
+[
+    {
+      "id": "1",
+      "name": "Clinic A",
+      "address": "123 Mental Health Ave, City, State, ZIP",
+      "phone": "(123) 456-7890",
+      "category": "Psychiatry"
+    },
+    {
+        "id": "1",
+        "name": "Clinic A",
+        "address": "123 Mental Health Ave, City, State, ZIP",
+        "phone": "(123) 456-7890",
+        "category": "Psychiatry"
+      },
+      {
+        "id": "1",
+        "name": "Clinic A",
+        "address": "123 Mental Health Ave, City, State, ZIP",
+        "phone": "(123) 456-7890",
+        "category": "Psychiatry"
+      }
+  ]
+  

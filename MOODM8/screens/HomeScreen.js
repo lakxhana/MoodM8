@@ -50,6 +50,10 @@ const HomeScreen = () => {
     navigation.navigate('Breathing'); 
   };
 
+  const handleNavigatetoJournalling = () => {
+     navigation.navigate('Breathing'); //change this tyour journalling screen
+  }
+
   const handleNavigateToGrounding = () => {
     navigation.navigate('Grounding'); 
   };
@@ -92,19 +96,7 @@ const HomeScreen = () => {
       </View>
     </View>
 
-      <View style={styles.journalSection}>
-        <Text style={styles.sectionTitle}>Journal Entry</Text>
-        <TextInput
-          style={styles.commentInput}
-          placeholder="Write your thoughts here..."
-          multiline
-          value={journalEntry}
-          onChangeText={setJournalEntry}
-        />
-        <TouchableOpacity onPress={handleSaveJournalEntry} style={styles.saveButton}>
-          <Text style={styles.saveButtonText}>Save Entry</Text>
-        </TouchableOpacity>
-      </View>
+
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>For You</Text>
@@ -118,6 +110,12 @@ const HomeScreen = () => {
           <TouchableOpacity onPress={handleNavigateToGrounding}>
             <Text style={styles.cardText}>Grounding Techniques</Text>
             <Text style={styles.cardSubText}>5-4-3-2-1 Techniques</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.card}>
+          <TouchableOpacity onPress={handleNavigateToBreathing}>
+            <Text style={styles.cardText}>Journal</Text>
+            <Text style={styles.cardSubText}>Unwind by putting your thoughts into words</Text>
           </TouchableOpacity>
         </View>
       </View>

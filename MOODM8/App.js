@@ -13,6 +13,7 @@ import SummaryScreen from './screens/SummaryScreen';
 import HistoryScreen from './screens/HistoryScreen';
 import LoginScreen from './screens/LoginScreen'; 
 import SignUpScreen from './screens/SignUpScreen'; 
+import ClinicsScreen from './screens/ClinicsScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Stack = createNativeStackNavigator();
@@ -32,8 +33,8 @@ const BottomTabNavigator = ({ navigation }) => (
           iconName = 'body';
         } else if (route.name === 'Streak') {
           iconName = 'star'; 
-        } else if (route.name === 'Chat') {
-          iconName = 'chatbubble'; 
+        } else if (route.name === 'Clinics') {
+          iconName = 'medkit-outline'; 
         }
         return <Ionicons name={iconName} size={size} color={color} />;
       },
@@ -66,7 +67,7 @@ const BottomTabNavigator = ({ navigation }) => (
     <Tab.Screen name="Breathing" component={BreathingGuideScreen} />
     <Tab.Screen name="Grounding" component={GroundingTechniquesScreen} />
     <Tab.Screen name="Streak" component={StreakScreen} />
-    <Tab.Screen name="Chat" component={StreakScreen} />
+    <Tab.Screen name="Clinics" component={ClinicsScreen} />
   </Tab.Navigator>
 );
 
@@ -148,6 +149,17 @@ const DrawerNavigator = () => (
       options={{
         title: 'Home',
         headerShown: false, 
+      }}
+    />
+
+      <Drawer.Screen 
+      name="Clinics" 
+      component={ClinicsScreen} 
+      options={{
+        title: 'Mental Health Clinics',
+        headerShown: true,
+        headerTintColor: '#ab9e7f',
+        headerStyle: { backgroundColor: '#ffffff' },
       }}
     />
     <Drawer.Screen 
