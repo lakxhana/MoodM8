@@ -25,7 +25,7 @@ const MoodScreen = () => {
         ...doc.data(),
       }));
 
-      // Sort moodList by timeStamp in descending order
+
       const sortedMoodList = moodList.sort((a, b) => {
         return b.timeStamp.toDate() - a.timeStamp.toDate();
       });
@@ -41,7 +41,7 @@ const MoodScreen = () => {
       setError("Failed to load mood data.");
     } finally {
       setLoading(false);
-      setRefreshing(false); // Stop refreshing once data is fetched
+      setRefreshing(false); 
     }
   };
 
@@ -50,8 +50,8 @@ const MoodScreen = () => {
   }, [db, auth]);
 
   const onRefresh = () => {
-    setRefreshing(true); // Set refreshing state to true
-    fetchMoods(); // Fetch mood data again
+    setRefreshing(true); 
+    fetchMoods(); 
   };
 
   if (loading) {
