@@ -152,7 +152,7 @@ const DrawerNavigator = () => (
     />
     <Drawer.Screen 
       name="SignOutScreen" 
-      component={SignOutScreen} // Use SignOutScreen directly
+      component={SignOutScreen}
       options={{
         title: 'Sign Out',
         headerShown: false, 

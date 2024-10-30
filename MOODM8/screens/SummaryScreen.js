@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
-import backgroundImage from '../assets/logo_bg_1.png';
-
 const SummaryScreen = ({ route }) => {
   const { elapsedTime } = route.params;
   const [days, setDays] = useState(0);
@@ -50,15 +48,11 @@ const SummaryScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover',
-  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'rgba(240, 240, 240, 0.8)', // Optional overlay color
+    backgroundColor: 'rgba(240, 240, 240, 0.8)', 
     paddingTop: 150,
   },
   heading: {

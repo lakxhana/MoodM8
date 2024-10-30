@@ -56,7 +56,7 @@ const HomeScreen = () => {
 
   const handleSaveJournalEntry = () => {
     console.log('Journal Entry:', journalEntry);
-    setJournalEntry(''); // Clear the input after saving
+    setJournalEntry(''); 
   };
 
   return (
@@ -77,7 +77,6 @@ const HomeScreen = () => {
         )}
       </View>
 
-          {/* Mood Tracker Section */}
     <View style={styles.moodContainer}>
       <Text style={styles.sectionTitle}>How are you feeling today?</Text>
       <View style={styles.moodButtonsContainer}>
@@ -180,8 +179,8 @@ const styles = StyleSheet.create({
   },
   moodButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'center', // Center buttons horizontally
-    marginVertical: 10, // Space between title and buttons
+    justifyContent: 'center', 
+    marginVertical: 10,
   },
   
   moodButton: {

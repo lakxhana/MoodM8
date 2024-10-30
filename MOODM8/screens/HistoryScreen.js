@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#E7EAEC', // Optional overlay color
+    backgroundColor: '#E7EAEC', 
     padding: 20,
   },
   title: {

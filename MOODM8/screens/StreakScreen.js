@@ -53,12 +53,12 @@ const StreakScreen = ({ navigation }) => {
       duration: elapsedTime,
     };
 
-    // Add new record to history and maintain size limit
+  
     setHistory((prevHistory) => {
       if (prevHistory.length >= 50) {
-        return [...prevHistory.slice(1), newRecord]; // Remove oldest record
+        return [...prevHistory.slice(1), newRecord]; 
       }
-      return [...prevHistory, newRecord]; // Add new record
+      return [...prevHistory, newRecord];
     });
 
     // Reset streak
@@ -96,7 +96,7 @@ const StreakScreen = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.startButton,
-            { backgroundColor: isRunning ? '#ab9e7f' : '#afcfd6' } // Change color based on isRunning
+            { backgroundColor: isRunning ? '#ab9e7f' : '#afcfd6' } 
           ]}
           onPress={handleStartPress}
         >
@@ -137,22 +137,22 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 25,
     left: 10,
-    backgroundColor: '#c6e7e7',
+    backgroundColor: '#afcfd6',
     borderRadius: 10,
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderColor: '#d4caa2',
+    borderColor: '#fff',
     borderWidth: 1,
     alignItems: 'center',
   },
   dateText: {
     fontSize: 20,
-    color: '#333',
+    color: '#fff',
     fontWeight: 'bold',
   },
   timeText: {
     fontSize: 20,
-    color: '#333',
+    color: '#fff',
   },
   startContainer: {
     flexDirection: 'row',
