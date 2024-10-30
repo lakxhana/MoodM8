@@ -7,7 +7,6 @@ const GroundingTechniquesScreen = () => {
     const [step, setStep] = useState(1);
     const [input, setInput] = useState(['', '', '', '', '']);
     const [responses, setResponses] = useState({});
-    const [isNextDisabled, setIsNextDisabled] = useState(false);
     const [isIconPressed, setIsIconPressed] = useState(false);
     const [isSoundLoaded, setIsSoundLoaded] = useState(false);
     const [isSoundLoading, setIsSoundLoading] = useState(false);
