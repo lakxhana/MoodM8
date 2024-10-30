@@ -138,5 +138,47 @@
         "address": "Jalan Mufti Haji Khalil, 75400 Melaka",
         "phone": "06-289 2344",
         "category": "Clinical Psychology"
+    },
+    {
+        "id": "21",
+        "name": "Hospital Tuanku Fauziah Kangar",
+        "address": "Jalan Tun Abdul Razak, Pusat Bandar Kangar, 01000 Kangar, Perlis",
+        "phone": "04-9738000",
+        "category": "Psychiatry"
+    },
+    {
+        "id": "22",
+        "name": "A. H. Lee Specialist Clinic",
+        "address": "38-1, Jalan 52/4, Bandar Baru Petaling Jaya, 46200 Petaling Jaya, Selangor, Malaysia",
+        "phone": "03-79561581",
+        "category": "Psychiatry"
+    },
+    {
+        "id": "23",
+        "name": "Dr Nor Hamidah Specialist Clinic",
+        "address": "282, Jalan Ampang, Kampung Berembang, 50450 Ampang Jaya, Federal Territory Of Kuala Lumpur",
+        "phone": "03-4257 8711",
+        "category": "Psychiatry"
+    },
+    {
+        "id": "24",
+        "name": "All Women\u2019s Action Society (AWAM)",
+        "address": "85, Jalan 21/1, Sea Park, 46300 Petaling Jaya, Selangor, Malaysia",
+        "phone": "03-7877 4221",
+        "category": "Counselling"
+    },
+    {
+        "id": "25",
+        "name": "Agape Counselling Centre Malaysia",
+        "address": "56, Jalan PJS 1/46, Taman Petaling Utama, 46150 Petaling Jaya, Selangor, Malaysia",
+        "phone": "03-7785 4833",
+        "category": "Counselling"
+    },
+    {
+        "id": "26",
+        "name": "Bahagian Kaunseling & Psikologi, Jabatan Kebajikan Masyarakat",
+        "address": "Level 9, Grand Season\u2019s Avenue, No. 72, Jalan Pahang, 50564 Kuala Lumpur",
+        "phone": "03-2612 4000",
+        "category": "Counselling"
     }
 ]

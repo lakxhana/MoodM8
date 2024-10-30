@@ -33,7 +33,7 @@ const ClinicsScreen = () => {
         onChangeText={text => setSearchQuery(text)}
       />
       <View style={styles.filterContainer}>
-        {['Counseling', 'Psychiatry', 'Clinical Psychology'].map(category => (
+        {['Counselling', 'Psychiatry', 'Clinical Psychology'].map(category => (
           <TouchableOpacity
             key={category}
             style={[

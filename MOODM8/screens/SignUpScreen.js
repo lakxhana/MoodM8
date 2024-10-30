@@ -35,16 +35,7 @@ const SignUp = () => {
   return (
     <ImageBackground source={require('../assets/bg1.jpg')} style={styles.background}>
       <View style={styles.container}>
-        <Text style={styles.title}>Sign Up for MOODM8</Text>
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Name" 
-          value={name}
-          onChangeText={setName}
-          placeholderTextColor="#aaa"
-        />
-        
+        <Text style={styles.title}>Sign Up for MOODM8</Text>  
         <TextInput
           style={styles.input}
           placeholder="Email"

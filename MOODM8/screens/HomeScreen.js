@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getFirestore, collection, addDoc } from 'firebase/firestore'; // Change here
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const motivationalQuotes = [
@@ -40,6 +40,7 @@ const HomeScreen = () => {
   const [moodPosition, setMoodPosition] = useState(0);
   const db = getFirestore();
   const auth = getAuth();
+  const moodScaleWidth = 380; // Adjusted width for accurate positioning
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
@@ -47,7 +48,7 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    const moodIndex = Math.round(moodPosition / (400 / (moodLabels.length - 1)));
+    const moodIndex = Math.round(moodPosition / (moodScaleWidth / (moodLabels.length - 1)));
     setSelectedMood(moodIndex);
   }, [moodPosition]);
 
@@ -100,8 +101,6 @@ const HomeScreen = () => {
     }
   };
 
-  const moodScaleWidth = 400;
-
   panResponder.current = PanResponder.create({
     onMoveShouldSetPanResponder: (_, gestureState) => {
       return gestureState.dx !== 0;
@@ -151,7 +150,7 @@ const HomeScreen = () => {
             <View
               style={[
                 styles.dragIndicator,
-                { left: moodPosition },
+                { left: moodPosition, transform: [{ translateX: -10 }] },
               ]}
             />
           </View>
@@ -186,12 +185,12 @@ const HomeScreen = () => {
             <Text style={styles.cardSubText}>Track your mood</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.card}>
+        {/* <View style={styles.card}>
           <TouchableOpacity onPress={handleNavigateToBreathing}>
             <Text style={styles.cardText}>Journal</Text>
             <Text style={styles.cardSubText}>Unwind by putting your thoughts into words</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       <Modal visible={isModalVisible} transparent={true} animationType="slide">
@@ -270,26 +269,28 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     position: 'relative',
     marginVertical: 10,
+    paddingHorizontal: 10, // Adjust for inner padding
   },
   dragIndicator: {
     position: 'absolute',
+    top: '30%',
     width: 20,
     height: 20,
-    borderRadius: 10,
     backgroundColor: '#ab9e7f',
-    top: 10,
+
+    borderRadius: 10,
   },
   selectedMoodText: {
     textAlign: 'center',
     color: '#ab9e7f',
-    fontWeight: 'bold',
+    fontSize: 18,
   },
   submitButton: {
-    backgroundColor: '#afcfd6',
+    backgroundColor: '#ab9e7f',
     padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
+    borderRadius: 10,
     alignItems: 'center',
+    marginTop: 10,
   },
   submitButtonText: {
     color: '#fff',
@@ -299,24 +300,31 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     color: '#ab9e7f',
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   card: {
     backgroundColor: '#fff',
-    padding: 15,
+    padding: 20,
     borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
     elevation: 2,
   },
   cardText: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#ab9e7f',
+    fontWeight: 'bold',
   },
   cardSubText: {
     fontSize: 14,
-    color: '#777',
+    color: '#666',
+    marginTop: 5,
   },
   modalContainer: {
     flex: 1,
@@ -325,25 +333,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   modalImage: {
-    width: '100%',
-    height: '100%',
+    width: '90%',
+    height: '60%',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  modalQuoteText: {
+    fontSize: 20,
+    color: '#fff',
+    textAlign: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    padding: 10,
   },
   closeButton: {
     position: 'absolute',
-    top: 40,
-    right: 20,
+    top: 10,
+    right: 10,
+    padding: 5,
+    backgroundColor: '#ab9e7f',
+    borderRadius: 5,
   },
   closeButtonText: {
     color: '#fff',
-    fontSize: 20,
-  },
-  modalQuoteText: {
-    color: '#fff',
-    fontSize: 24,
-    textAlign: 'center',
-    padding: 20,
   },
 });
 

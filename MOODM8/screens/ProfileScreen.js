@@ -106,13 +106,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
   profileContainer: {
-    backgroundColor: 'transparent', // Set background to transparent
+    backgroundColor: 'transparent', 
     borderRadius: 15,
-    padding: 30, // Adjusted padding for a more spacious look
+    padding: 30, 
     width: '90%',
-    elevation: 3, // Light shadow for better visibility
+    elevation: 3, 
     alignItems: 'flex-start',
-    marginTop: -150, // Move the container up
+
   },
   title: {
     color: '#706752',
@@ -164,15 +164,15 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   saveButton: {
-    backgroundColor: '#afcfd6', // Button background color
+    backgroundColor: '#afcfd6', 
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
-    marginTop: 20, // Adjust margin as needed
-    width: '100%', // Makes the button full-width
+    marginTop: 20, 
+    width: '100%', 
   },
   saveButtonText: {
-    color: '#fff', // Text color
+    color: '#fff', 
     fontSize: 16,
     fontWeight: 'bold',
   },
