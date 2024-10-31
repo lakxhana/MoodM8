@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   clinicName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#ab9e7f',
   },
   clinicAddress: {
     fontSize: 16,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   clinicPhone: {
     fontSize: 16,
-    color: '#0066cc',
+    color: '#ab9e7f',
   },
 });
 

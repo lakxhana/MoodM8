@@ -17,9 +17,9 @@ const Login = () => {
           navigation.navigate('Drawer');
         })
         .catch(error => {
-          Alert.alert("Login Failed", error.message);
-          console.error("Login error:", error);
-          Alert.alert("Login Failed", error.message);
+          Alert.alert("Invalid email or password, please try again.");
+         
+         
         });
     } else {
       Alert.alert("Login Failed", "Please enter both email and password.");
