@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { signInWithEmailAndPassword, auth } from '../firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig'; 
 import backgroundImage from '../assets/bg1.jpg'; 
 
 const Login = () => {
@@ -18,8 +19,7 @@ const Login = () => {
         })
         .catch(error => {
           Alert.alert("Invalid email or password, please try again.");
-         
-         
+          console.log (error);
         });
     } else {
       Alert.alert("Login Failed", "Please enter both email and password.");
@@ -62,7 +62,6 @@ const Login = () => {
     </ImageBackground>
   );
 };
-
 
 const styles = StyleSheet.create({
   background: {
